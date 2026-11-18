@@ -6,51 +6,47 @@
 <title>Dual Recorder: 16:9 + 9:16</title>
 <style>
 :root{--bg:#f6f5f1;--card:#fff;--text:#1d1d1b;--muted:#6b6a65;--accent:#d9381e;--line:#e3e1da;
- box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161614;--card:#222220;--text:#f2f1ec;--muted:#9a9890;--accent:#ff6a4d;--line:#33332f}}
 :root[data-theme="dark"]{--bg:#161614;--card:#222220;--text:#f2f1ec;--muted:#9a9890;--accent:#ff6a4d;--line:#33332f}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:980px;margin:0 auto;padding:20px 16px 40px}
-h1{font-size:1.4rem;margin:0 0 4px}
-p.sub{margin:0 0 18px;color:var(--muted)}
-.views{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
-.card h2{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
-.h{flex:2 1 420px}.v{flex:0 1 220px}
-@media (max-width:700px){
- .views{flex-direction:column;align-items:stretch;gap:14px}
- .v{order:-1;flex:none;width:100%;max-width:300px;margin:0 auto}
- .h{order:1;flex:none;width:100%}
-}
-canvas{display:block;width:100%;height:auto;background:#000;border-radius:8px}
-.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:16px 0}
-button{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--text);padding:10px 18px;border-radius:999px;cursor:pointer}
-button.rec{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
-button:disabled{opacity:.45;cursor:default}
-#timer{font-variant-numeric:tabular-nums;color:var(--muted)}
-#msg{color:var(--muted);min-height:1.5em}
+main{max-width:980px;margin:0 auto;padding:14px 14px 130px}
+h1{font-size:1.25rem;margin:0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}
+#timer{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.95rem}
+#timer.on{color:var(--accent);font-weight:600}
+#msg{color:var(--muted);font-size:.9rem;min-height:1.4em;margin-bottom:10px}
 #msg.err{color:var(--accent)}
-.out{display:none;margin-top:8px}
-.out.on{display:block}
+.views{display:flex;gap:14px;align-items:flex-start;justify-content:center}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px}
+.card h2{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.h{flex:2 1 0}.v{flex:0 0 230px}
+canvas{display:block;width:100%;height:auto;background:#000;border-radius:8px}
+button{font:inherit;min-height:48px;border:1px solid var(--line);background:var(--card);color:var(--text);padding:0 18px;border-radius:999px;cursor:pointer;touch-action:manipulation}
+button:disabled{opacity:.45;cursor:default}
+.out{display:none;margin-top:8px}.out.on{display:block}
 .out video{width:100%;border-radius:8px;background:#000}
 .out button{margin-top:8px;width:100%}
-video#src{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+video#src{position:absolute;width:2px;height:2px;opacity:0;pointer-events:none}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:10px;justify-content:center;align-items:center;
+ padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--line)}
+.bar button{flex:1 1 0;max-width:200px;white-space:nowrap}
+#rec{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600;flex:1.4 1 0}
+#start{background:var(--text);color:var(--bg);border-color:var(--text);font-weight:600;flex:1.4 1 0}
+@media (max-width:700px){
+ .views{flex-direction:column;align-items:stretch}
+ .v{order:-1;flex:none;width:min(100%,calc(52dvh * 9 / 16 + 22px));margin:0 auto}
+ .h{order:1;flex:none;width:100%}
+ .bar button{padding:0 10px;font-size:.92rem}
+}
 </style>
 </head>
 <body>
 <main>
-<h1>Dual Recorder</h1>
-<p class="sub">One camera, two videos at once: horizontal 16:9 and vertical 9:16.</p>
-
-<div class="bar">
-  <button id="start">Start camera</button>
-  <button id="rec" class="rec" disabled>● Record</button>
-  <span id="timer">00:00</span>
-  <button id="both" disabled>Save both to gallery</button>
-</div>
-<div id="msg"></div>
+<div class="top"><h1>Dual Recorder</h1><span id="timer">00:00</span></div>
+<div id="msg">Press Start camera. You get a 9:16 and a 16:9 video at once.</div>
 
 <div class="views">
   <div class="card h"><h2>Horizontal 16:9</h2><canvas id="ch" width="1280" height="720"></canvas>
@@ -58,15 +54,23 @@ video#src{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
   <div class="card v"><h2>Vertical 9:16</h2><canvas id="cv" width="720" height="1280"></canvas>
     <div class="out" id="ov"><video controls playsinline></video><button>Save vertical</button></div></div>
 </div>
-<video id="src" muted playsinline></video>
+<video id="src" muted playsinline autoplay></video>
 </main>
+
+<div class="bar">
+  <button id="flip" disabled aria-label="Switch camera">⟲ Flip</button>
+  <button id="start">Start camera</button>
+  <button id="rec" disabled style="display:none">● Record</button>
+  <button id="both" disabled>Save both</button>
+</div>
 
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)};
   var src=$('src'),ch=$('ch'),cv=$('cv'),msg=$('msg'),timer=$('timer');
   var cxh=ch.getContext('2d'),cxv=cv.getContext('2d');
-  var stream=null,recs=[],blobs={},chunks={h:[],v:[]},t0=0,tick=null,recording=false,downloads=null;
+  var vTrack=null,aTracks=[],facing='user',started=false,
+      recs=[],blobs={},chunks={h:[],v:[]},t0=0,tick=null,recording=false,downloads=null;
 
   function say(t,err){msg.textContent=t;msg.className=err?'err':''}
 
@@ -75,42 +79,65 @@ video#src{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
     for(var i=0;i<list.length;i++){if(window.MediaRecorder&&MediaRecorder.isTypeSupported(list[i]))return list[i]}
     return '';
   }
-  var mime=pickMime();
-  var ext=mime.indexOf('mp4')>-1?'mp4':'webm';
+  var mime=pickMime(),ext=mime.indexOf('mp4')>-1?'mp4':'webm';
 
   function draw(ctx,c){
     var vw=src.videoWidth,vh=src.videoHeight;
     if(!vw)return;
-    var s=Math.max(c.width/vw,c.height/vh);
-    var w=vw*s,h=vh*s;
+    var s=Math.max(c.width/vw,c.height/vh),w=vw*s,h=vh*s;
     ctx.drawImage(src,(c.width-w)/2,(c.height-h)/2,w,h);
   }
-  function loop(){
-    draw(cxh,ch);draw(cxv,cv);
-    requestAnimationFrame(loop);
+  function loop(){draw(cxh,ch);draw(cxv,cv);requestAnimationFrame(loop)}
+
+  async function openVideo(f){
+    var s=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:f},width:{ideal:1920},height:{ideal:1080}},audio:false});
+    var t=s.getVideoTracks()[0];
+    if(vTrack)vTrack.stop();
+    vTrack=t;
+    src.srcObject=new MediaStream([t]);
+    await src.play();
+    facing=f;
   }
 
   $('start').onclick=async function(){
-    if(stream)return;
-    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){say('Camera is not supported in this browser.',true);return}
+    if(started)return;
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){say('Camera is not supported here. Use HTTPS and a recent browser.',true);return}
     try{
-      stream=await navigator.mediaDevices.getUserMedia({video:{width:{ideal:1920},height:{ideal:1080},facingMode:'user'},audio:true});
+      var s=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'user'},width:{ideal:1920},height:{ideal:1080}},audio:true});
+      aTracks=s.getAudioTracks();
+      vTrack=s.getVideoTracks()[0];
     }catch(e){
-      try{stream=await navigator.mediaDevices.getUserMedia({video:true,audio:false});say('Microphone unavailable, recording without sound.')}
-      catch(e2){say('Could not open the camera ('+(e2.name||'error')+'). Allow camera access, or open this page in its own browser tab.',true);return}
+      try{
+        var s2=await navigator.mediaDevices.getUserMedia({video:true,audio:false});
+        vTrack=s2.getVideoTracks()[0];
+        say('Microphone unavailable, recording without sound.',true);
+      }catch(e2){say('Could not open the camera ('+(e2.name||'error')+'). Allow camera access, or open this page in its own browser tab.',true);return}
     }
-    src.srcObject=stream;
-    await src.play();
-    $('start').disabled=true;$('rec').disabled=false;
-    if(!msg.textContent)say('Camera ready. Press Record.');
+    src.srcObject=new MediaStream([vTrack]);
+    try{await src.play()}catch(e){}
+    started=true;
+    $('start').style.display='none';
+    $('rec').style.display='';$('rec').disabled=false;$('flip').disabled=false;
+    var st=vTrack.getSettings&&vTrack.getSettings();
+    if(st&&st.facingMode)facing=st.facingMode;
+    if(!aTracks.length||msg.className!=='err')say('Camera ready ('+(facing==='environment'?'back':'front')+'). Press Record.');
     loop();
+  };
+
+  $('flip').onclick=async function(){
+    if(!started)return;
+    var next=facing==='user'?'environment':'user';
+    $('flip').disabled=true;
+    try{await openVideo(next);say('Using the '+(next==='environment'?'back':'front')+' camera.')}
+    catch(e){say('Could not switch camera ('+(e.name||'error')+').',true);
+      try{await openVideo(facing)}catch(e2){}}
+    $('flip').disabled=false;
   };
 
   function makeRec(canvas,key){
     var out=canvas.captureStream(30);
-    stream.getAudioTracks().forEach(function(t){out.addTrack(t)});
-    var opts=mime?{mimeType:mime,videoBitsPerSecond:5000000}:{};
-    var r=new MediaRecorder(out,opts);
+    aTracks.forEach(function(t){out.addTrack(t)});
+    var r=new MediaRecorder(out,mime?{mimeType:mime,videoBitsPerSecond:5000000}:{});
     chunks[key]=[];
     r.ondataavailable=function(e){if(e.data&&e.data.size)chunks[key].push(e.data)};
     r.onstop=function(){finish(key)};
@@ -119,8 +146,7 @@ video#src{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 
   function finish(key){
     var blob=new Blob(chunks[key],{type:mime||'video/webm'});
-    var box=$(key==='h'?'oh':'ov');
-    var vid=box.querySelector('video');
+    var box=$(key==='h'?'oh':'ov'),vid=box.querySelector('video');
     if(vid.dataset.url)URL.revokeObjectURL(vid.dataset.url);
     var url=URL.createObjectURL(blob);
     vid.dataset.url=url;vid.src=url;
@@ -137,7 +163,7 @@ video#src{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
     try{
       if(downloads){
         await downloads.save({filename:name,data:blob});
-        say('Saved '+name+'. On iPhone choose Save Video in the share sheet; on Android it appears in your Gallery or Downloads.');
+        say('Saved '+name+'. On iPhone choose Save Video; on Android check Gallery or Downloads.');
       }else if(navigator.canShare&&navigator.canShare({files:[new File([blob],name,{type:blob.type})]})){
         await navigator.share({files:[new File([blob],name,{type:blob.type})]});
       }else{
@@ -150,30 +176,28 @@ video#src{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
   $('both').onclick=async function(){await saveOne('h');await saveOne('v')};
 
   $('rec').onclick=function(){
-    if(!stream)return;
+    if(!started)return;
     if(!recording){
       if(!window.MediaRecorder){say('Recording is not supported in this browser.',true);return}
+      blobs={};$('both').disabled=true;
       recs=[makeRec(ch,'h'),makeRec(cv,'v')];
       recs.forEach(function(r){r.start(1000)});
       recording=true;t0=Date.now();
-      $('rec').textContent='■ Stop';
-      say('Recording both formats…');
+      $('rec').textContent='■ Stop';timer.className='on';
+      say('Recording both formats. You can flip the camera while recording.');
       tick=setInterval(function(){
         var s=Math.floor((Date.now()-t0)/1000);
         timer.textContent=('0'+Math.floor(s/60)).slice(-2)+':'+('0'+s%60).slice(-2);
       },250);
     }else{
       recs.forEach(function(r){if(r.state!=='inactive')r.stop()});
-      recording=false;clearInterval(tick);
+      recording=false;clearInterval(tick);timer.className='';
       $('rec').textContent='● Record';
-      say('Done. Preview and save each version below.');
+      say('Done. Preview below, then save.');
     }
   };
 
-  // optional save capability (hosted page)
-  try{
-    if(window.claude&&claude.use){claude.use('downloads').then(function(d){downloads=d}).catch(function(){})}
-  }catch(e){}
+  try{if(window.claude&&claude.use){claude.use('downloads').then(function(d){downloads=d}).catch(function(){})}}catch(e){}
 })();
 </script>
 </body>
